@@ -1,0 +1,40 @@
+.header {
+    width: 1440px;
+    height: 80px;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 26px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.headerLink {
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.85);
+}
+
+.text {
+    margin-left: 22px;
+    display: flex;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.85);
+}
+
+.loginBtns {
+    display: flex;
+    align-items: center;
+}
+
+.loginBtn {
+    border: none;
+    width: 115px;
+    height: 51px;
+    background-color: #fff;
+    margin-right: 22px;
+}
+
+.loginBtn:hover {
+    border: 1px solid rgba(82, 196, 26, 1);
+    color: rgba(82, 196, 26, 1);
+}
