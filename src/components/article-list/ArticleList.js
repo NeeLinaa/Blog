@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Pagination } from 'antd';
+import PropTypes from 'prop-types';
 import * as actions from '../../actions/actions';
 import ApiServices from '../../services';
 
@@ -10,35 +10,33 @@ import 'antd/dist/antd.css';
 import './ArticleList.scss';
 
 const ArticleList = ({ getAllArticles, loadingStor }) => {
+  const apiServices = new ApiServices();
+  const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(loadingStor);
 
-    const [page, setPage] = useState(0)
-    const [loading, setLoading] = useState(loadingStor)
-    
+  /* eslint-disable */
   useEffect(() => {
-    ApiServices.allArticlesRequest(page)
-    .then((data) => getAllArticles(data.articles))
+    apiServices.allArticlesRequest(page).then((data) => getAllArticles(data.articles));
 
-    setLoading(false)
-  }, [page])
+    setLoading(false);
+  }, [page, getAllArticles]);
+  /* eslint-enable */
 
-    return (
-        <div>
-            <ArticleItem loading={loading} />
-            <div className="pagination">
-                <Pagination 
-                            defaultCurrent={1} 
-                            total={50} 
-                            onChange={(elem => setPage(elem * 10 - 10))} 
-                    />
-            </div>
-        </div>
-    )
-}
+  return <ArticleItem loading={loading} setPage={setPage} />;
+};
 
-const mapStateToProps = (state) => {
-    return ({
-        loadingStor: state.articles[1]
-    })
-  }
+const mapStateToProps = (state) => ({
+  loadingStor: state.articles[1],
+});
+
+ArticleList.defaultProps = {
+  getAllArticles: () => {},
+  loadingStor: true,
+};
+
+ArticleList.propTypes = {
+  getAllArticles: PropTypes.func,
+  loadingStor: PropTypes.bool,
+};
 
 export default connect(mapStateToProps, actions)(ArticleList);

@@ -1,0 +1,27 @@
+.serviceTagsBtn {
+    font-size: 16px;
+    width: 100px;
+    padding: 5px 20px;
+    margin-right: 15px;
+    border: 1px solid #1890FF;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #1890FF;
+    height: 37px;
+}
+
+.tagsForm {
+    width: 400px;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.tagsBlock {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+}
+
+.serviceTagsBtnAdd {
+    margin-bottom: 15px;
+}

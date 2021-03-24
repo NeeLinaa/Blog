@@ -1,80 +1,94 @@
 import React from 'react';
+import { Pagination, Typography } from 'antd';
 import { connect } from 'react-redux';
-import * as actions from '../../actions/actions';
 import { format } from 'date-fns';
-import { Spin, Typography } from 'antd';
-import { HeartOutlined } from '@ant-design/icons';
-import 'antd/dist/antd.css';
-
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { saveData } from '../../localStorage';
+import * as actions from '../../actions/actions';
+import Like from '../like/Like';
+import 'antd/dist/antd.css';
+import { spiner } from '../../utilits';
 
 import './ArticleItem.scss';
 
-const ArticleItem = ({articles, loading}) => {
+const ArticleItem = ({ articles, loading, setPage }) => {
+  const articleCard = (item) => {
+    const { title, body, author, updatedAt, slug, tagList } = item;
+    const date = format(new Date(updatedAt), 'PP');
+    const itemSlug = `/articles/${slug}`;
+    const artileBody = `${body.split(' ').slice(0, 35).join(' ')}`;
+    const { Text } = Typography;
 
-    const articleCard = (item) => {
+    const showTags = (arr) => {
+      if (arr.length !== 0) {
+        return arr.map((elem) => (
+          <Text keyboard type="secondary" className="tag" key={elem}>
+            {elem}
+          </Text>
+        ));
+      }
+      return (
+        <Text type="secondary" className="tag">
+          There are no tags
+        </Text>
+      );
+    };
 
-        const { title, favoritesCount, body, author, updatedAt, slug, tagList} = item
-        const date = format(new Date(updatedAt), 'PP')
-        const itemSlug = `/articles/${slug}`
+    return (
+      <div className="articleCard" key={slug}>
+        <div className="basicInf">
+          <div className="articleHeader">
+            <Link to={itemSlug} id={slug} onClick={(event) => saveData(event.target.id)} className="title">
+              {title}
+            </Link>
+            <Like slug={slug} />
+          </div>
+          <div className="tagDiv">{showTags(tagList)}</div>
+          <div className="textDiv">
+            <p className="articleText">{artileBody}</p>
+          </div>
+        </div>
+        <div className="author">
+          <div className="authorInf">
+            <p className="authorName">{author.username}</p>
+            <p className="articleDate">{date}</p>
+          </div>
+          <div className="authorPhoto">
+            <img className="authorPhoto" src={author.image} alt="author" />
+          </div>
+        </div>
+      </div>
+    );
+  };
 
-        const artileBody = `${body.split(' ').slice(0, 11).join(' ')}`;
+  if (!loading) return spiner();
 
-        const { Text } = Typography;
+  return (
+    <div>
+      <div>{articles && articles.map((article) => articleCard(article))}</div>;
+      <div className="pagination">
+        <Pagination defaultCurrent={1} total={500} onChange={(elem) => setPage(elem * 10 - 10)} />
+      </div>
+    </div>
+  );
+};
 
-        function showTags(arr) {
-            if (arr.length !== 0) arr.map((elem) => elem);
-            return 'There are no tags'
-          }
+const mapStateToProps = (state) => ({
+  articles: state.articles[0],
+  loading: state.articles[1],
+});
 
-        return (
-            <div className='articleCard' key={slug}>
-                <div className='basicInf'>
-                    <div className='articleHeader'>
-                        <Link to={itemSlug} id={slug} onClick={event => localStorage.setItem('slug', event.target.id)} className='title'>{title}</Link>
-                        <HeartOutlined />
-                        <span className='like'>{favoritesCount}</span>
-                    </div>
-                    <div className='tagDiv'>
-                        <Text keyboard type="secondary" className='tag'>
-                            {showTags(tagList)}
-                        </Text>
-                    </div>
-                    <div className='textDiv'>
-                        <p className='articleText'>
-                            {artileBody}
-                        </p>
-                    </div>
-                </div>
-                <div className='author'>
-                    <div className='authorInf'>
-                        <p className='authorName'>{author.username}</p>
-                        <p className='articleDate'>{date}</p>
-                    </div>
-                    <div className='authorPhoto'>
-                        <img className='authorPhoto' src={author.image} alt='author' />
-                    </div>
-                </div>
-            </div>
-        )
-    }
+ArticleItem.defaultProps = {
+  articles: [],
+  loading: false,
+  setPage: () => {},
+};
 
-    if (!loading) {
-        return (
-            <div className="example">
-              <Spin size="large" />
-            </div>
-          );
-    }
-
-    return <div>{articles && articles.map(article => articleCard(article))}</div>
-}
-
-const mapStateToProps = (state) => {
-    return ({
-      articles: state.articles[0],
-      loading: state.articles[1]
-    })
-  }
+ArticleItem.propTypes = {
+  articles: PropTypes.arrayOf(PropTypes.object.isRequired),
+  loading: PropTypes.bool,
+  setPage: PropTypes.func,
+};
 
 export default connect(mapStateToProps, actions)(ArticleItem);
