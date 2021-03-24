@@ -24,6 +24,9 @@ const EditProfile = ({ editProfile }) => {
       claerData(userImage);
     }
   };
+  const style = {
+    height: 498,
+  };
   if (updateUser) {
     apiServices.getUser(userToken).then((data) => {
       saveData('userName', data.user.username);
@@ -35,7 +38,7 @@ const EditProfile = ({ editProfile }) => {
   }
   // if (updateUser) editProfile(true);
   return (
-    <div className="formBlock" style={{ height: 498 }}>
+    <div className="formBlock" style={style}>
       <p className="formHeader">Edit Profile</p>
       <form className="accFormInputs">
         <label className="formText" htmlFor="usName">

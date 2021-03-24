@@ -21,11 +21,14 @@ const SignIn = ({ getUserData, auth }) => {
       setTokenFlag(true);
     });
   };
+  const style = {
+    height: 384,
+  };
 
   if (tokenFlag) return <Redirect to="/" />;
 
   return (
-    <div className="formBlock" style={{ height: 384 }}>
+    <div className="formBlock" style={style}>
       <p className="formHeader">Sign in</p>
       <form className="accFormInputs">
         <label className="formText" htmlFor="mail">

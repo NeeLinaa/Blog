@@ -14,6 +14,15 @@ const NewArticle = ({ onSubmit, articleData }) => {
     setArrTag(upDateTagsArr);
   };
 
+  const addBtnStyle = {
+    color: '#F5222D',
+    border: '1px solid #F5222D',
+  };
+  const tagsStyle = {
+    width: 300,
+    marginRight: 15,
+  };
+
   // eslint-disable-next-line no-use-before-define
   const createTags = (data) =>
     data.map((elem) => (
@@ -23,7 +32,7 @@ const NewArticle = ({ onSubmit, articleData }) => {
           placeholder="Tag"
           name={elem}
           className="formInput"
-          style={{ width: 300, marginRight: 15 }}
+          style={tagsStyle}
           ref={register}
           // defaultValue={elem}
         />
@@ -43,7 +52,7 @@ const NewArticle = ({ onSubmit, articleData }) => {
   const newArticle = (data) => {
     const { title, description, body } = data;
     return (
-      <form className="accFormInputs">
+      <form className="accFormInputs newArticleForm">
         <div>
           <label className="formText" htmlFor="title">
             Title
@@ -102,13 +111,15 @@ const NewArticle = ({ onSubmit, articleData }) => {
               <p className="formText">Tags</p>
               {createTags(arrTags)}
             </div>
-            <input
-              type="buttom"
+            <button
+              type="button"
               className="serviceTagsBtn serviceTagsBtnAdd"
-              style={{ color: '#F5222D', border: '1px solid #F5222D' }}
+              style={addBtnStyle}
               onClick={(elem) => addTag(elem)}
-              defaultValue="Add tag"
-            />
+              // defaultValue="Add tag"
+            >
+              Add tag
+            </button>
           </div>
 
           <input className="newAccBtn" type="submit" value="Send" onClick={handleSubmit(onSubmit)} />

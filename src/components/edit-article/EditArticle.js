@@ -9,6 +9,10 @@ const EditArticle = ({ slugEdit }) => {
   const [editArticleFlag, setEditArticleFlag] = useState(false);
   const [articleData, setArticleData] = useState({});
   const [tagList, setTagList] = useState([]);
+  const editMyArticle = {
+    height: 701,
+    width: 938,
+  };
   const onSubmit = (data) => {
     setTagList(data.tag);
     const { title, shortDescr, text } = data;
@@ -22,10 +26,10 @@ const EditArticle = ({ slugEdit }) => {
   }, []);
   /* eslint-enable */
 
-  if (articleData && editArticleFlag) return <Redirect to={`/articles/${slugEdit}`} />;
+  if (articleData && editArticleFlag) return <Redirect to="/articles" />;
 
   return (
-    <div className="formBlock" style={{ height: 701, width: 938 }}>
+    <div className="formBlock" style={editMyArticle}>
       <p className="formHeader newArticleHeader">Edit article</p>
       <NewArticle onSubmit={onSubmit} articleData={articleData} />
     </div>

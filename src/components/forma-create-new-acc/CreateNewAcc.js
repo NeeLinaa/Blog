@@ -15,6 +15,9 @@ const CreateNewAcc = () => {
     apiServices.regRequets(data.Username, data.EmailAddress, data.password);
     setTokenFlag(true);
   };
+  const style = {
+    color: 'tomato',
+  };
 
   if (tokenFlag) return <Redirect to="/sign-in" />;
 
@@ -83,7 +86,7 @@ const CreateNewAcc = () => {
           maxLength="40"
         />
         {errors.RepeatPassword && (
-          <p style={{ color: 'tomato' }} className="formText">
+          <p style={style} className="formText">
             The passwords do not match
           </p>
         )}

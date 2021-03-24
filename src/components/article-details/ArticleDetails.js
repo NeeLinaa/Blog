@@ -48,8 +48,7 @@ const ArticleDetails = ({ getArticleAuthorData, authorData, slugProp }) => {
             <input
               type="submit"
               value="Edit"
-              style={{ borderColor: '#52C41A', color: '#52C41A' }}
-              className="loginBtn editArticleBtn"
+              className="loginBtn editArticleBtn editMyArticle"
               onClick={() => setEditFlag(true)}
             />
           </Link>
@@ -116,7 +115,7 @@ const ArticleDetails = ({ getArticleAuthorData, authorData, slugProp }) => {
     };
 
     return (
-      <div className="articleCard" style={{ height: 800 }} key={`${slug}${title}`}>
+      <div className="articleCard articleCardDetail" key={`${slug}${title}`}>
         <div className="basicInf">
           <div className="articleHeader">
             <span className="title">{title}</span>

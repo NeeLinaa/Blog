@@ -25,19 +25,29 @@ const Header = ({ authFlag, auth, editProfileFlag, editProfile }) => {
     return <Redirect to="sign-in" />;
   };
 
+  const textDecoration = {
+    textDecoration: 'none',
+  };
+  const fontSize = {
+    fontSize: 14,
+  };
+  const marginRight = {
+    marginRight: 13,
+  };
+
   const showHeader = () => {
     if (authFlag || userToken) {
       return (
         <nav className="header">
-          <Link to="/articles" style={{ textDecoration: 'none' }} className="text">
+          <Link to="/articles" style={textDecoration} className="text">
             Realworld Blog
           </Link>
           <div className="loginBtns">
             <Link to="/new-article" className="headerLink">
-              <input type="submit" value="Create article" style={{ fontSize: 14 }} className="loginBtn" />
+              <input type="submit" value="Create article" style={fontSize} className="loginBtn" />
             </Link>
             <Link to="/profile" className="headerLink">
-              <span className="authorName" style={{ marginRight: 13 }}>
+              <span className="authorName" style={marginRight}>
                 {userName || 'Name'}
               </span>
             </Link>
@@ -54,7 +64,7 @@ const Header = ({ authFlag, auth, editProfileFlag, editProfile }) => {
 
     return (
       <nav className="header">
-        <Link to="/articles" style={{ textDecoration: 'none' }} className="text">
+        <Link to="/articles" style={textDecoration} className="text">
           Realworld Blog
         </Link>
         <div className="loginBtns">

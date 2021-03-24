@@ -24,7 +24,7 @@ const CreateArticleItem = ({ createNewArticle }) => {
   if (flag) return <Redirect to="/articles" />;
 
   return (
-    <div className="formBlock" style={{ minHeight: 701, width: 938, overflow: 'auto' }}>
+    <div className="formBlock createArtForm">
       <p className="formHeader newArticleHeader">Create new article</p>
       <NewArticle onSubmit={onSubmit} />
     </div>

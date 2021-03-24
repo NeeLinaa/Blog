@@ -11,6 +11,9 @@ const Like = ({ slug }) => {
   const [likeFlag, setLikeFlag] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const userToken = localStorage.getItem('userToken');
+  const style = {
+    width: 35,
+  };
 
   const sendFavoriteArticleRequest = (apiFunc, slugParam, method) =>
     apiFunc(slugParam, method).then((data) => {
@@ -41,7 +44,7 @@ const Like = ({ slug }) => {
 
   if (!likeFlag) {
     return (
-      <div style={{ width: 35 }}>
+      <div style={style}>
         <input type="image" alt="like" src={like} onClick={() => likeArticle()} />
         <span className="like">{likeCount}</span>
       </div>
@@ -49,7 +52,7 @@ const Like = ({ slug }) => {
   }
 
   return (
-    <div style={{ width: 35 }}>
+    <div style={style}>
       <input type="image" alt="like" src={redLike} onClick={() => likeArticle()} />
       <span className="like">{likeCount}</span>
     </div>
