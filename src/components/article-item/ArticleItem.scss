@@ -51,6 +51,10 @@ $tags-color: rgba(0, 0, 0, 0.5);
     color: $tags-color;
 }
 
+.articleTextHide {
+    overflow: hidden;
+}
+
 .articleText {
     font-size: 12px;
     line-height: 22px;

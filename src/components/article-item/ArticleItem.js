@@ -46,7 +46,7 @@ const ArticleItem = ({ articles, loading, setPage }) => {
           </div>
           <div className="tagDiv">{showTags(tagList)}</div>
           <div className="textDiv">
-            <p className="articleText">{artileBody}</p>
+            <p className="articleText articleTextHide">{artileBody}</p>
           </div>
         </div>
         <div className="author">

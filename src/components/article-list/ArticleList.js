@@ -3,9 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as actions from '../../actions/actions';
 import ApiServices from '../../services';
-
 import ArticleItem from '../article-item/ArticleItem';
-
 import 'antd/dist/antd.css';
 import './ArticleList.scss';
 
