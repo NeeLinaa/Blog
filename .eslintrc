@@ -1,11 +1,7 @@
 {
     "extends": [
         "airbnb/base",
-        "prettier",
-        "prettier/react"
-    ],
-    "plugins": [
-      "prettier"
+        "prettier"
     ],
     "rules": {
       "react/prop-types": 0
