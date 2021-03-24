@@ -4,6 +4,9 @@
         "prettier",
         "prettier/react"
     ],
+    "plugins": [
+      "prettier"
+    ],
     "rules": {
       "react/prop-types": 0
     }
