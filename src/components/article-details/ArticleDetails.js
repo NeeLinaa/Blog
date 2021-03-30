@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 // import { format } from 'date-fns';
 import ReactMarkdown from 'react-markdown';
-import { Modal, Typography , message } from 'antd';
+import { Modal, Typography, message } from 'antd';
 import 'antd/dist/antd.css';
 import { Link, Redirect } from 'react-router-dom';
 import ApiServices from '../../services';
@@ -11,7 +11,6 @@ import Like from '../like/Like';
 import * as actions from '../../actions/actions';
 import Spinner from '../spiner/Spiner';
 import { newArticlePath } from '../../routeService';
-
 
 import './ArticleDetails.scss';
 
@@ -147,7 +146,7 @@ const ArticleDetails = ({ getArticleAuthorData, authorData, slugProp, userData }
   if (deleteFag) return <Redirect to={newArticlePath} />;
   if (editFlag) return <Redirect to={`/articles/${slugProp}/edit`} />;
 
-  if (!articleItem) return <Spinner />;
+  if (articleItem.length === 0) return <Spinner />;
 
   return <div>{articleItem && extendedArticle(articleItem)}</div>;
 };
