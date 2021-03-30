@@ -2,26 +2,31 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { message } from 'antd';
 import * as actions from '../../actions/actions';
 import ApiServices from '../../services';
 import NewArticle from '../new-article/NewArticle';
+import { articlesListPath } from '../../routeService';
 
 import './CreateArticleItem.scss';
 
 const CreateArticleItem = ({ createNewArticle }) => {
-  const apiServices = new ApiServices();
   const [flag, setFlag] = useState(false);
 
   const onSubmit = (data) => {
     setFlag(true);
     createNewArticle(data.title, data.shortDescr, data.text);
     const { title, shortDescr, text, ...tagList } = data;
-    apiServices.createArticle(title, shortDescr, text, Object.values(tagList)).catch(() => {
-      throw new Error();
-    });
+    const postData = {
+      title,
+      shortDescr,
+      text,
+      tagList: Object.values(tagList),
+    };
+    ApiServices.createArticle(postData).catch(() => message.warning('Failed to create new article'));
   };
 
-  if (flag) return <Redirect to="/articles" />;
+  if (flag) return <Redirect to={articlesListPath} />;
 
   return (
     <div className="formBlock createArtForm">

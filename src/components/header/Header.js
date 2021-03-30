@@ -1,28 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import * as actions from '../../actions/actions';
-import ApiServices from '../../services';
-import { claerData, getData, saveData } from '../../localStorage';
+import { claerData, getData } from '../../localStorage';
+import { signInPath } from '../../routeService';
 
 import './Header.scss';
 
-const Header = ({ authFlag, auth, editProfileFlag, editProfile }) => {
-  const apiServices = new ApiServices();
+const Header = ({ authFlag, auth, editProfile, userData, history }) => {
   const userToken = getData('userToken');
-  // const userName = getData('userName');
-  // const userImage = getData('userImage');
 
-  const [userName, setUserName] = useState(getData('userName'));
-  const [userImage, setUserImage] = useState(getData('userImage'));
+  /* eslint-disable */
+  useEffect(() => {
+    userData.name && showHeader();
+  }, [userToken, userData.name]);
+  /* eslint-enable */
 
   const onLogOut = () => {
     claerData('userToken');
-    claerData('userName');
-    claerData('userImage');
     auth(false);
     editProfile(false);
-    return <Redirect to="sign-in" />;
+    history.push(signInPath);
   };
 
   const textDecoration = {
@@ -48,11 +46,11 @@ const Header = ({ authFlag, auth, editProfileFlag, editProfile }) => {
             </Link>
             <Link to="/profile" className="headerLink">
               <span className="authorName" style={marginRight}>
-                {userName || 'Name'}
+                {userData.name || 'Name'}
               </span>
             </Link>
             <Link to="/profile" className="headerLink">
-              <img className="authorPhoto" src={`${userImage}`} alt="author" />
+              <img className="authorPhoto" src={`${userData.image}`} alt="author" />
             </Link>
             <Link to="/sign-in" className="headerLink">
               <input type="submit" value="Log Out" className="loginBtn" onClick={onLogOut} />
@@ -79,26 +77,13 @@ const Header = ({ authFlag, auth, editProfileFlag, editProfile }) => {
     );
   };
 
-  /* eslint-disable */
-  useEffect(() => {
-    userName && showHeader();
-    if (authFlag) {
-      apiServices.getUser(getData('userToken')).then((data) => {
-        saveData('userName', data.user.username);
-        setUserName(data.user.username);
-        saveData('userImage', data.user.image);
-        setUserImage(data.user.image);
-      });
-    }
-  }, [authFlag, editProfileFlag, userToken]);
-  /* eslint-enable */
-
   return showHeader();
 };
 
 const mapStateToProps = (state) => ({
   authFlag: state.form.authFlag,
   editProfileFlag: state.form.editProfileFlag,
+  userData: state.userData,
 });
 
-export default connect(mapStateToProps, actions)(Header);
+export default withRouter(connect(mapStateToProps, actions)(Header));

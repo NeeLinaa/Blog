@@ -1,4 +1,100 @@
+$info-color: rgba(24, 144, 255, 1);
+$text-color: rgba(0, 0, 0, 0.75);
+$tags-color: rgba(0, 0, 0, 0.5);
+
+.articleCard {
+    max-width: 941px;
+    min-width: 420px;
+    min-height: 140px;
+    background-color: #fff;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto 26px auto;
+    padding: 15px 14px 0 19px;
+    box-sizing: border-box;
+}
+
+.basicInf {
+    width: 682px;
+    height: 45px;
+}
+
+.articleHeader {
+    margin-bottom: 4px;
+    height: 30px;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow: hidden;
+}
+
+.title {
+    font-size: 20px;
+    max-width: 600px;
+    color: $info-color;
+    margin-right: 13px;
+    word-break: break-all;
+}
+
+.like {
+    margin-left: 5px;
+    color: $text-color;
+}
+
+.tagDiv{
+    margin-bottom: 7px;
+    font-size: 12px;
+}
+
+.tag {
+    background-color: #fff;
+    border-radius: 2px;
+    color: $tags-color;
+}
+
+.articleTextHide {
+    overflow: hidden;
+    text-overflow: clip;
+}
+
+.articleText {
+    font-size: 12px;
+    line-height: 22px;
+    word-break: break-all;
+    height: 35px;
+}
+
+.author{
+    min-width: 141px;
+    height: 46px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.authorName {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.articleDate {
+    font-size: 12px;
+}
+
+.authorPhoto {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+}
+
+.example {
+  text-align: center;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  padding: 30px 50px;
+  margin: 20px 0;
+}
+
 .pagination {
-    width: 520px;
+    width: 350px;
     margin: 0 auto;
 }

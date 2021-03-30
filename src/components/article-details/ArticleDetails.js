@@ -2,25 +2,37 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 // import { format } from 'date-fns';
-import { Modal, Typography } from 'antd';
+import ReactMarkdown from 'react-markdown';
+import { Modal, Typography , message } from 'antd';
 import 'antd/dist/antd.css';
 import { Link, Redirect } from 'react-router-dom';
 import ApiServices from '../../services';
 import Like from '../like/Like';
 import * as actions from '../../actions/actions';
-import { spiner } from '../../utilits';
-import { getData } from '../../localStorage';
+import Spinner from '../spiner/Spiner';
+import { newArticlePath } from '../../routeService';
+
 
 import './ArticleDetails.scss';
 
-const ArticleDetails = ({ getArticleAuthorData, authorData, slugProp }) => {
-  const apiServices = new ApiServices();
+const ArticleDetails = ({ getArticleAuthorData, authorData, slugProp, userData }) => {
   const [articleItem, setArticleItem] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [deleteFag, setDeleteFlag] = useState(false);
   const [editFlag, setEditFlag] = useState(false);
   const { Text } = Typography;
-  const userName = getData('userName');
+  const userName = userData.name;
+
+  /* eslint-disable */
+  useEffect(() => {
+    ApiServices.getOneArticle(slugProp)
+      .then((data) => {
+        setArticleItem(data.article);
+        getArticleAuthorData(data.article.author.username, data.article.author.image, data.article.updatedAt);
+      })
+      .catch(() => message.warning('Something went wrong'));
+  }, [slugProp, getArticleAuthorData]);
+  /* eslint-enable */
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -29,7 +41,7 @@ const ArticleDetails = ({ getArticleAuthorData, authorData, slugProp }) => {
   const handleOk = () => {
     setIsModalVisible(false);
     setDeleteFlag(true);
-    apiServices.deleteMyArticle(slugProp);
+    ApiServices.deleteMyArticle(slugProp);
   };
 
   const handleCancel = () => {
@@ -123,7 +135,8 @@ const ArticleDetails = ({ getArticleAuthorData, authorData, slugProp }) => {
           </div>
           <div className="tagDiv">{showTags(tagList)}</div>
           <div className="textDiv">
-            <p className="articleText">{body}</p>
+            {/* <p className="articleText">{body}</p> */}
+            <ReactMarkdown className="articleText">{body}</ReactMarkdown>
           </div>
         </div>
         {authorData && showAuthor(authorData)}
@@ -131,37 +144,31 @@ const ArticleDetails = ({ getArticleAuthorData, authorData, slugProp }) => {
     );
   };
 
-  /* eslint-disable */
-  useEffect(() => {
-    apiServices.getOneArticle(slugProp).then((data) => {
-      setArticleItem(data.article);
-      getArticleAuthorData(data.article.author.username, data.article.author.image, data.article.updatedAt);
-    });
-  }, [slugProp, getArticleAuthorData]);
-  /* eslint-enable */
-
-  if (deleteFag) return <Redirect to="/new-article" />;
+  if (deleteFag) return <Redirect to={newArticlePath} />;
   if (editFlag) return <Redirect to={`/articles/${slugProp}/edit`} />;
 
-  if (!articleItem) return spiner();
+  if (!articleItem) return <Spinner />;
 
   return <div>{articleItem && extendedArticle(articleItem)}</div>;
 };
 
 const mapStateToProps = (state) => ({
   authorData: state.authorData,
+  userData: state.userData,
 });
 
 ArticleDetails.defaultProps = {
   getArticleAuthorData: () => {},
   authorData: [],
   slugProp: '',
+  userData: [],
 };
 
 ArticleDetails.propTypes = {
   getArticleAuthorData: PropTypes.func,
   authorData: PropTypes.arrayOf(PropTypes.string.isRequired),
   slugProp: PropTypes.string,
+  userData: PropTypes.arrayOf(PropTypes.string.isRequired),
 };
 
 export default connect(mapStateToProps, actions)(ArticleDetails);

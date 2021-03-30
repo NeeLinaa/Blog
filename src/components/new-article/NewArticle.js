@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import PropTypes from 'prop-types';
 
@@ -7,12 +7,6 @@ import './NewArticle.scss';
 const NewArticle = ({ onSubmit, articleData }) => {
   const { register, handleSubmit, errors } = useForm();
   const [arrTags, setArrTag] = useState([1, 2]);
-
-  const deleteTag = (data) => {
-    const index = arrTags.indexOf(data);
-    const upDateTagsArr = [...arrTags.slice(0, index), ...arrTags.slice(index + 1)];
-    setArrTag(upDateTagsArr);
-  };
 
   const addBtnStyle = {
     color: '#F5222D',
@@ -23,24 +17,17 @@ const NewArticle = ({ onSubmit, articleData }) => {
     marginRight: 15,
   };
 
-  // eslint-disable-next-line no-use-before-define
-  const createTags = (data) =>
-    data.map((elem) => (
-      <div className="tagsForm" key={elem}>
-        <input
-          type="text"
-          placeholder="Tag"
-          name={elem}
-          className="formInput"
-          style={tagsStyle}
-          ref={register}
-          // defaultValue={elem}
-        />
-        <button type="button" className="serviceTagsBtn serviceTagsBtnDel" onClick={() => deleteTag(elem)}>
-          Delete
-        </button>
-      </div>
-    ));
+  /* eslint-disable */
+  useEffect(() => {
+    if (articleData.tagList) return setArrTag(articleData.tagList);
+  }, []);
+  /* eslint-enable */
+
+  const deleteTag = (data) => {
+    const index = arrTags.indexOf(data);
+    const upDateTagsArr = [...arrTags.slice(0, index), ...arrTags.slice(index + 1)];
+    setArrTag(upDateTagsArr);
+  };
 
   const addTag = (data) => {
     // const index = arrTags.indexOf(data);
@@ -48,6 +35,25 @@ const NewArticle = ({ onSubmit, articleData }) => {
     newTagsArr.push(data.clientX);
     setArrTag(newTagsArr);
   };
+
+  // eslint-disable-next-line no-use-before-define
+  const createTags = (data) =>
+    data.map((elem) => (
+      <div className="tagsForm" key={elem}>
+        <input
+          type="text"
+          // placeholder="Tag"
+          name={elem}
+          className="formInput"
+          style={tagsStyle}
+          ref={register}
+          placeholder={elem}
+        />
+        <button type="button" className="serviceTagsBtn serviceTagsBtnDel" onClick={() => deleteTag(elem)}>
+          Delete
+        </button>
+      </div>
+    ));
 
   const newArticle = (data) => {
     const { title, description, body } = data;

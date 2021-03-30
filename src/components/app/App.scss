@@ -1,8 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
+#root {
+}
+
 .container {
     font-family: 'Inter', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 18px;
+    max-width: 1440px;
+    min-width: 420px;
+    margin: 0 auto;
 }

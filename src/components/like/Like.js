@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { message } from 'antd';
 import like from '../../img/Likes.svg';
 import redLike from '../../img/RedLikes.svg';
 import ApiServices from '../../services';
+// import { getData } from '../../localStorage';
 
 import './Like.scss';
 
 const Like = ({ slug }) => {
-  const apiServices = new ApiServices();
   const [likeFlag, setLikeFlag] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const userToken = localStorage.getItem('userToken');
@@ -15,18 +16,11 @@ const Like = ({ slug }) => {
     width: 35,
   };
 
-  const sendFavoriteArticleRequest = (apiFunc, slugParam, method) =>
-    apiFunc(slugParam, method).then((data) => {
-      setLikeFlag(data.article.favorited);
-      setLikeCount(data.article.favoritesCount);
-    });
-
   /* eslint-disable */
   useEffect(() => {
     slug &&
       userToken &&
-      apiServices
-        .getOneArticle(slug)
+      ApiServices.getOneArticle(slug)
         .then((data) => {
           setLikeFlag(data.article.favorited);
           setLikeCount(data.article.favoritesCount);
@@ -35,25 +29,25 @@ const Like = ({ slug }) => {
   }, []);
   /* eslint-enable */
 
-  const likeArticle = () => {
-    if (likeFlag) {
-      return sendFavoriteArticleRequest(apiServices.rateArticle, slug, 'DELETE');
-    }
-    return sendFavoriteArticleRequest(apiServices.rateArticle, slug, 'POST');
-  };
+  const sendFavoriteArticleRequest = (apiFunc, slugParam, method) =>
+    apiFunc(slugParam, method).then((data) => {
+      setLikeFlag(data.article.favorited);
+      setLikeCount(data.article.favoritesCount);
+    });
 
-  if (!likeFlag) {
-    return (
-      <div style={style}>
-        <input type="image" alt="like" src={like} onClick={() => likeArticle()} />
-        <span className="like">{likeCount}</span>
-      </div>
-    );
-  }
+  const likeArticle = () => {
+    if (userToken) {
+      if (likeFlag) {
+        return sendFavoriteArticleRequest(ApiServices.rateArticle, slug, 'DELETE');
+      }
+      return sendFavoriteArticleRequest(ApiServices.rateArticle, slug, 'POST');
+    }
+    return message.warning('It is impossible to rate the article without authorization');
+  };
 
   return (
     <div style={style}>
-      <input type="image" alt="like" src={redLike} onClick={() => likeArticle()} />
+      <input type="image" alt="like" src={likeFlag ? redLike : like} onClick={() => likeArticle()} />
       <span className="like">{likeCount}</span>
     </div>
   );

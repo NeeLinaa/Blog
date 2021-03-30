@@ -2,13 +2,13 @@ import { combineReducers } from 'redux';
 import allArticlesReduser from './allArticlesReduser';
 import formReduser from './formReduser';
 import authorDataReduser from './authorDataReduser';
-import newArticleReduser from './newArticleReduser';
+import userDataReduser from './userData';
 
 const allRedusers = combineReducers({
   articles: allArticlesReduser,
   form: formReduser,
   authorData: authorDataReduser,
-  newArticle: newArticleReduser,
+  userData: userDataReduser,
 });
 
 export default allRedusers;

@@ -4,7 +4,7 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     width: 384px;
-    height: 599px;
+    min-height: 599px;
     position: relative;
     background-color: #fff;
     margin: 0 auto;
@@ -39,7 +39,7 @@
     height: 40px;
     border: 1px solid #D9D9D9;
     border-radius: 4px;
-    margin-bottom: 12px;
+    margin-bottom: 7px;
     padding-left: 12px;
     color: rgba(38, 38, 38, 1);
 }

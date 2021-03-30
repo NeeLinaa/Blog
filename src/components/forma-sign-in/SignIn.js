@@ -3,59 +3,91 @@ import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { message } from 'antd';
 import * as actions from '../../actions/actions';
 import ApiServices from '../../services';
 import { saveData } from '../../localStorage';
+import { mainPath, signUpPath } from '../../routeService';
 
 import './SignIn.scss';
 
 const SignIn = ({ getUserData, auth }) => {
-  const apiServices = new ApiServices();
   const [tokenFlag, setTokenFlag] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
   const { register, handleSubmit, errors } = useForm();
+
   const onSubmit = (data) => {
-    apiServices.authentication(data.email, data.password).then((resp) => {
-      getUserData(resp.user.username, resp.user.image);
-      auth(true);
-      saveData('userToken', resp.user.token);
-      setTokenFlag(true);
-    });
+    ApiServices.authentication(data.email, data.password)
+      .then((resp) => {
+        getUserData(resp.user.username, resp.user.image);
+        auth(true);
+        saveData('userToken', resp.user.token);
+        setTokenFlag(true);
+        setIsDisabled(true);
+      })
+      .catch(() => message.warning('Enter login and password'));
   };
   const style = {
     height: 384,
   };
 
-  if (tokenFlag) return <Redirect to="/" />;
+  const styleErr = {
+    color: 'tomato',
+    fontSize: '12px',
+    margin: 0,
+    position: 'relative',
+    top: -5,
+  };
+
+  if (tokenFlag) return <Redirect to={mainPath} />;
 
   return (
     <div className="formBlock" style={style}>
       <p className="formHeader">Sign in</p>
       <form className="accFormInputs">
-        <label className="formText" htmlFor="mail">
-          Email address
-        </label>
-        <input id="mail" type="email" className="formInput" name="email" placeholder="Email address" ref={register} />
-        {errors.email && <p>This is required</p>}
+        <fieldset disabled={isDisabled}>
+          <label className="formText" htmlFor="mail">
+            Email address
+          </label>
+          <input
+            id="mail"
+            type="email"
+            className="formInput"
+            name="email"
+            placeholder="Email address"
+            required
+            ref={register}
+          />
+          {errors.email && (
+            <p style={styleErr} className="formText">
+              This is required
+            </p>
+          )}
 
-        <label className="formText" htmlFor="pass">
-          Password
-        </label>
-        <input
-          id="pass"
-          type="password"
-          className="formInput"
-          name="password"
-          placeholder="Password"
-          ref={register}
-          minLength="8"
-          maxLength="40"
-        />
-        {errors.password && <p>This is required</p>}
+          <label className="formText" htmlFor="pass">
+            Password
+          </label>
+          <input
+            id="pass"
+            type="password"
+            className="formInput"
+            name="password"
+            placeholder="Password"
+            required
+            ref={register}
+            pattern="[A-Za-z0-9]{8,40}"
+          />
+          {errors.password && (
+            <p style={styleErr} className="formText">
+              Password must be from 8 to 40 characters, can consist of uppercase and uppercase letters
+            </p>
+          )}
 
-        <input className="newAccBtn" type="submit" value="Log In" onClick={handleSubmit(onSubmit)} />
+          <input className="newAccBtn" type="submit" value="Log In" onClick={handleSubmit(onSubmit)} />
+        </fieldset>
       </form>
       <p className="accFooter">
-        Don’t have an account? <Link to="/sign-up">Sign Up.</Link>
+        Don’t have an account? <Link to={signUpPath}>Sign Up.</Link>
       </p>
     </div>
   );

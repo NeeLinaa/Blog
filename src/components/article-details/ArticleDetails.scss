@@ -1,7 +1,8 @@
 $text-color: rgba(0, 0, 0, 0.75);
 
 .articleDetails {
-    width: 941px;
+    max-width: 941px;
+    min-width: 420px;
     height: 830px;
     background-color: #fff;
     color: $text-color;
