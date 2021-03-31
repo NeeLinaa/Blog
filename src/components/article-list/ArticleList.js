@@ -31,7 +31,7 @@ const ArticleList = ({ getAllArticles, articles }) => {
     const { title, body, author, updatedAt, slug, tagList } = item;
     const date = format(new Date(updatedAt), 'PP');
     const itemSlug = `/articles/${slug}`;
-    const artileBody = `${body.split(' ').slice(0, 35).join(' ')}`;
+    const artileBody = `${body.split(' ').slice(0, 10).join(' ')}`;
     const { Text } = Typography;
 
     const showTags = (arr) => {

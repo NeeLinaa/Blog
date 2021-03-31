@@ -2,9 +2,15 @@
 
 .createArtForm {
     min-height: 700px;
-    width: 938px;
+    min-width: 415px;
+    max-width: 938px;
     max-height: 100%;
-    
+}
+
+@media (min-width: 768px) {
+    .createArtForm {
+        min-width: 768px;
+    }
 }
 
 .newArticleHeader {
@@ -12,7 +18,14 @@
 }
 
 .newArticeInput{
-    width: 874px;
+    min-width: 320;
+}
+
+@media (min-width: 768px) {
+    .newArticeInput {
+        min-width: 708px;
+        max-width: 874px;
+    }
 }
 
 .newArticleText {

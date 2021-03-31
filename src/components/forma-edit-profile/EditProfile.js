@@ -70,12 +70,11 @@ const EditProfile = ({ getUserData, editProfile }) => {
               Username must be from 3 to 20 characters
             </p>
           )}
-
           <label className="formText" htmlFor="mail">
             Email address
           </label>
-          <input id="mail" type="email" className="formInput" ref={register} name="Email" placeholder="Email address" />
-
+          <input id="mail" type="email" className="formInput" ref={register} name="Email" placeholder="Email address" />{' '}
+          <br />
           <label className="formText" htmlFor="pass">
             New password
           </label>
@@ -89,12 +88,10 @@ const EditProfile = ({ getUserData, editProfile }) => {
             minLength="8"
             maxLength="40"
           />
-
           <label className="formText" htmlFor="img">
             Avatar image (url)
           </label>
           <input id="img" type="text" className="formInput" ref={register} name="image" placeholder="Avatar image" />
-
           <input className="newAccBtn" type="submit" value="Save" onClick={handleSubmit(onSubmit)} />
         </fieldset>
       </form>

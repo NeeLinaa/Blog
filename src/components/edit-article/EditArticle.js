@@ -13,7 +13,7 @@ const EditArticle = ({ slugEdit }) => {
 
   const editMyArticle = {
     height: 701,
-    width: 938,
+    maxWidth: 938,
   };
 
   /* eslint-disable */
@@ -44,7 +44,7 @@ const EditArticle = ({ slugEdit }) => {
   if (!articleData) return <Spiner />;
 
   return (
-    <div className="formBlock" style={editMyArticle}>
+    <div className="formBlock createArtForm" style={editMyArticle}>
       <p className="formHeader newArticleHeader">Edit article</p>
       <NewArticle onSubmit={onSubmit} articleData={articleData} />
     </div>

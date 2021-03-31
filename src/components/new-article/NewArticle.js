@@ -13,7 +13,7 @@ const NewArticle = ({ onSubmit, articleData }) => {
     border: '1px solid #F5222D',
   };
   const tagsStyle = {
-    width: 300,
+    maxWidth: 300,
     marginRight: 15,
   };
 

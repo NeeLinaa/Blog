@@ -16,17 +16,31 @@
 }
 
 .tagsForm {
-    width: 400px;
+    max-width: 300px;
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
+}
+
+@media (min-width: 768px) {
+    .tagsForm {
+        max-width: 400px;
+        flex-wrap: nowrap;
+    }
 }
 
 .tagsBlock {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-items: flex-end;
 }
 
+@media (min-width: 768px) {
+    .tagsBlock {
+        flex-wrap: nowrap;
+    }
+}
+
 .serviceTagsBtnAdd {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
+    margin-top: 5px;
 }
