@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, Redirect } from 'react-router-dom';
-// import { message } from 'antd';
 import ApiServices from '../../services';
 import { signInPath } from '../../routeService';
 
@@ -17,9 +16,7 @@ const CreateNewAcc = () => {
     ApiServices.regRequets(data.Username, data.EmailAddress, data.password);
     setTokenFlag(true);
     setIsDisabled(true);
-    // if (!tokenFlag) message.error('Failed to register');
   };
-  console.log(tokenFlag);
   const styleErr = {
     color: 'tomato',
     fontSize: '12px',
@@ -27,6 +24,7 @@ const CreateNewAcc = () => {
     position: 'relative',
     top: -5,
   };
+  console.log(tokenFlag);
 
   if (tokenFlag) return <Redirect to="/sign-in" />;
 
