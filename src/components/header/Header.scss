@@ -26,11 +26,12 @@
 }
 
 .loginBtn {
-    border: none;
+    border: 1px solid #fff;
     max-width: 115px;
     height: 51px;
     background-color: #fff;
     margin-right: 22px;
+    box-sizing: border-box;
 }
 
 .loginBtn:hover {
