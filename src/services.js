@@ -22,12 +22,12 @@ class ApiServices {
   // }
 
   mainRequest = async (url, options) => {
-    // try {
-    const request = await fetch(url, options);
-    return request.json();
-    // } catch (err) {
-    //   throw new Error(err);
-    // }
+    try {
+      const request = await fetch(url, options);
+      return request.json();
+    } catch (err) {
+      throw new Error(err);
+    }
   };
 
   allArticlesRequest = (page) => this.mainRequest(`${this.api}/articles?limit=10&offset=${page}`);

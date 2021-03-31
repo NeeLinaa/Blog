@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
-import { message } from 'antd';
+import { Link, Redirect } from 'react-router-dom';
+// import { message } from 'antd';
 import ApiServices from '../../services';
 import { signInPath } from '../../routeService';
 
@@ -14,13 +14,12 @@ const CreateNewAcc = () => {
   const pass = useRef({});
   pass.current = watch('password', '');
   const onSubmit = (data) => {
-    ApiServices.regRequets(data.Username, data.EmailAddress, data.password).catch(() =>
-      message.warning('Something went wrong. Try again')
-    );
+    ApiServices.regRequets(data.Username, data.EmailAddress, data.password);
     setTokenFlag(true);
     setIsDisabled(true);
-    if (!tokenFlag) message.error('Failed to register');
+    // if (!tokenFlag) message.error('Failed to register');
   };
+  console.log(tokenFlag);
   const styleErr = {
     color: 'tomato',
     fontSize: '12px',
@@ -29,7 +28,7 @@ const CreateNewAcc = () => {
     top: -5,
   };
 
-  // if (tokenFlag) return <Redirect to="/sign-in" />;
+  if (tokenFlag) return <Redirect to="/sign-in" />;
 
   return (
     <div className="formBlock">
