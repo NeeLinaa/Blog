@@ -24,7 +24,6 @@ const CreateNewAcc = () => {
     position: 'relative',
     top: -5,
   };
-  console.log(tokenFlag);
 
   if (tokenFlag) return <Redirect to="/sign-in" />;
 
