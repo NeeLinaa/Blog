@@ -1,20 +1,26 @@
 import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, Redirect } from 'react-router-dom';
+import { message } from 'antd';
 import ApiServices from '../../services';
 import { signInPath } from '../../routeService';
 
 import './CreateNewAcc.scss';
 
 const CreateNewAcc = () => {
-  const [tokenFlag, setTokenFlag] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   const { register, handleSubmit, errors, watch } = useForm({});
   const pass = useRef({});
   pass.current = watch('password', '');
   const onSubmit = (data) => {
-    ApiServices.regRequets(data.Username, data.EmailAddress, data.password);
-    setTokenFlag(true);
+    ApiServices.regRequets(data.Username, data.EmailAddress, data.password).then((resp) => {
+      if (resp.errors) {
+        message.warning('Something went wrong. Try again');
+        return setIsLogin(false);
+      }
+      return setIsLogin(true);
+    });
     setIsDisabled(true);
   };
   const styleErr = {
@@ -25,7 +31,7 @@ const CreateNewAcc = () => {
     top: -5,
   };
 
-  if (tokenFlag) return <Redirect to="/sign-in" />;
+  if (isLogin) return <Redirect to="/sign-in" />;
 
   return (
     <div className="formBlock">
@@ -42,9 +48,12 @@ const CreateNewAcc = () => {
             className="formInput"
             name="Username"
             placeholder="Username"
-            required
-            ref={register({ required: true })}
-            pattern="[A-Za-z]{3,20}"
+            ref={register({
+              required: true,
+              minLength: 3,
+              maxLength: 20,
+              pattern: /^[a-zA-Z]+$/,
+            })}
           />
           {errors.Username && (
             <p style={styleErr} className="formText">
@@ -61,7 +70,6 @@ const CreateNewAcc = () => {
             className="formInput"
             name="EmailAddress"
             placeholder="Email address"
-            required
             ref={register({ required: true })}
           />
           {errors.EmailAddress && (
@@ -79,9 +87,11 @@ const CreateNewAcc = () => {
             className="formInput"
             name="password"
             placeholder="Password"
-            required
-            ref={register({ required: true })}
-            pattern="[A-Za-z0-9]{8,40}"
+            ref={register({
+              required: true,
+              minLength: 8,
+              maxLength: 40,
+            })}
           />
           {errors.password && (
             <p style={styleErr} className="formText">
@@ -98,11 +108,12 @@ const CreateNewAcc = () => {
             className="formInput"
             name="RepeatPassword"
             placeholder="Repeat Password"
-            required
             ref={register({
+              required: true,
+              minLength: 8,
+              maxLength: 40,
               validate: (value) => value === pass.current || 'The passwords do not match',
             })}
-            pattern="{8,40}"
           />
           {errors.RepeatPassword && (
             <p style={styleErr} className="formText">

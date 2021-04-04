@@ -6,7 +6,8 @@ import './NewArticle.scss';
 
 const NewArticle = ({ onSubmit, articleData }) => {
   const { register, handleSubmit, errors } = useForm();
-  const [arrTags, setArrTag] = useState([1, 2]);
+  const [arrTags, setArrTag] = useState(['']);
+  console.log(arrTags);
 
   const addBtnStyle = {
     color: '#F5222D',
@@ -40,15 +41,7 @@ const NewArticle = ({ onSubmit, articleData }) => {
   const createTags = (data) =>
     data.map((elem) => (
       <div className="tagsForm" key={elem}>
-        <input
-          type="text"
-          // placeholder="Tag"
-          name={elem}
-          className="formInput"
-          style={tagsStyle}
-          ref={register}
-          placeholder={elem}
-        />
+        <input type="text" name={elem} className="formInput" style={tagsStyle} ref={register} placeholder="Tag" />
         <button type="button" className="serviceTagsBtn serviceTagsBtnDel" onClick={() => deleteTag(elem)}>
           Delete
         </button>

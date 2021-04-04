@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { message } from 'antd';
 import * as actions from '../../actions/actions';
 import ApiServices from '../../services';
-import { saveData } from '../../localStorage';
+import { saveToken } from '../../localStorage';
 import { mainPath, signUpPath } from '../../routeService';
 
 import './SignIn.scss';
@@ -16,17 +16,25 @@ const SignIn = ({ getUserData, auth }) => {
   const [isDisabled, setIsDisabled] = useState(false);
   const { register, handleSubmit, errors } = useForm();
 
-  const onSubmit = (data) => {
-    ApiServices.authentication(data.email, data.password)
+  const onSubmit = async (data) => {
+    await ApiServices.authentication(data.email, data.password)
       .then((resp) => {
+        if (resp.errors) {
+          auth(false);
+          setTokenFlag(false);
+          setIsDisabled(false);
+        }
         getUserData(resp.user.username, resp.user.image);
         auth(true);
-        saveData('userToken', resp.user.token);
+        saveToken(resp.user.token);
         setTokenFlag(true);
         setIsDisabled(true);
       })
-      .catch(() => message.warning('Enter login and password'));
+      .catch(() => {
+        message.warning('Enter login and password');
+      });
   };
+
   const style = {
     height: 384,
   };
@@ -55,8 +63,7 @@ const SignIn = ({ getUserData, auth }) => {
             className="formInput"
             name="email"
             placeholder="Email address"
-            required
-            ref={register}
+            ref={register({ required: true })}
           />
           {errors.email && (
             <p style={styleErr} className="formText">
@@ -73,9 +80,11 @@ const SignIn = ({ getUserData, auth }) => {
             className="formInput"
             name="password"
             placeholder="Password"
-            required
-            ref={register}
-            pattern="[A-Za-z0-9]{8,40}"
+            ref={register({
+              required: true,
+              minLength: 8,
+              maxLength: 40,
+            })}
           />
           {errors.password && (
             <p style={styleErr} className="formText">
@@ -83,7 +92,13 @@ const SignIn = ({ getUserData, auth }) => {
             </p>
           )}
 
-          <input className="newAccBtn" type="submit" value="Log In" onClick={handleSubmit(onSubmit)} />
+          <input
+            className="newAccBtn"
+            type="submit"
+            value="Log In"
+            disabled={isDisabled}
+            onClick={handleSubmit(onSubmit)}
+          />
         </fieldset>
       </form>
       <p className="accFooter">
@@ -94,8 +109,7 @@ const SignIn = ({ getUserData, auth }) => {
 };
 
 const mapStateToProps = (state) => ({
-  user: state.form.data,
-  pass: state.form.pass,
+  flag: state.form.authFlag,
 });
 
 SignIn.defaultProps = {

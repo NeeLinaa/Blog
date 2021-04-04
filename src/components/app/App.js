@@ -22,21 +22,22 @@ import {
   newArticleEditPath,
 } from '../../routeService';
 import ApiServices from '../../services';
-import { getData } from '../../localStorage';
+import PrivateRoute from '../private-route/PrivateRoute';
 
 import './App.scss';
 
-function App({ getUserData }) {
+function App({ getUserData, auth }) {
   useEffect(() => {
     const getUserInfo = async () => {
-      await ApiServices.getUser(getData('userToken')).then((data) => {
+      await ApiServices.getUser().then((data) => {
         const { username, image } = data.user;
         getUserData(username, image);
+        auth(true);
       });
     };
 
     getUserInfo();
-  }, [getUserData]);
+  }, [getUserData, auth]);
 
   return (
     <div className="container">
@@ -54,7 +55,7 @@ function App({ getUserData }) {
         />
         <Route path={signInPath} render={() => <SignIn />} />
         <Route path={signUpPath} render={() => <CreateNewAcc />} />
-        <Route path={profilePath} component={EditProfile} />
+        <PrivateRoute path={profilePath} component={EditProfile} />
         <Route path={newArticlePath} component={CreateArticleItem} />
         <Route
           path={newArticleEditPath}
@@ -70,10 +71,12 @@ function App({ getUserData }) {
 
 App.defaultProps = {
   getUserData: () => {},
+  auth: () => {},
 };
 
 App.propTypes = {
   getUserData: PropTypes.func,
+  auth: PropTypes.func,
 };
 
 export default connect(null, actions)(App);

@@ -4,14 +4,14 @@ import { message } from 'antd';
 import like from '../../img/Likes.svg';
 import redLike from '../../img/RedLikes.svg';
 import ApiServices from '../../services';
-// import { getData } from '../../localStorage';
+import { getToken } from '../../localStorage';
 
 import './Like.scss';
 
 const Like = ({ slug }) => {
   const [likeFlag, setLikeFlag] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
-  const userToken = localStorage.getItem('userToken');
+  const userToken = getToken();
   const style = {
     width: 35,
   };

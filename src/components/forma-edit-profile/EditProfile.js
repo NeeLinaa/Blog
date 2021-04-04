@@ -6,15 +6,15 @@ import { Redirect } from 'react-router-dom';
 import { message } from 'antd';
 import * as actions from '../../actions/actions';
 import ApiServices from '../../services';
-import { getData } from '../../localStorage';
-import { mainPath, signInPath } from '../../routeService';
+import { getToken } from '../../localStorage';
+import { mainPath } from '../../routeService';
 
 import './EditProfile.scss';
 
 const EditProfile = ({ getUserData, editProfile }) => {
   const [updateUser, setUpdateUser] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
-  const userToken = getData('userToken');
+  const userToken = getToken();
   const { register, handleSubmit, errors } = useForm();
   const onSubmit = (data) => {
     setUpdateUser(true);
@@ -42,7 +42,7 @@ const EditProfile = ({ getUserData, editProfile }) => {
     top: -5,
   };
 
-  if (!userToken) return <Redirect to={signInPath} />;
+  // if (!userToken) return <Redirect to={signInPath} />;
 
   if (updateUser) {
     editProfile(true);
@@ -60,14 +60,17 @@ const EditProfile = ({ getUserData, editProfile }) => {
             id="usName"
             type="text"
             className="formInput"
-            ref={register}
+            ref={register({
+              minLength: 3,
+              maxLength: 20,
+              pattern: /^[a-zA-Z]+$/,
+            })}
             placeholder="Username"
             name="Username"
-            pattern="[A-Za-z]{3,20}"
           />
           {errors.Username && (
             <p style={styleErr} className="formText">
-              Username must be from 3 to 20 characters
+              Username must be 3-20 uppercase or lowercase letters.
             </p>
           )}
           <label className="formText" htmlFor="mail">
@@ -82,11 +85,12 @@ const EditProfile = ({ getUserData, editProfile }) => {
             id="pass"
             type="password"
             className="formInput"
-            ref={register}
+            ref={register({
+              minLength: 8,
+              maxLength: 40,
+            })}
             placeholder="New password"
             name="NewPassword"
-            minLength="8"
-            maxLength="40"
           />
           <label className="formText" htmlFor="img">
             Avatar image (url)

@@ -20,7 +20,6 @@ const EditArticle = ({ slugEdit }) => {
   useEffect(() => {
     ApiServices.getOneArticle(slugEdit)
       .then((data) => {
-        console.log(data);
         setArticleData(data.article);
       })
       .catch(() => message.warning('Failed to edit article'));

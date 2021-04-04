@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import * as actions from '../../actions/actions';
-import { claerData, getData } from '../../localStorage';
+import { claerToken, getToken } from '../../localStorage';
 import { signInPath } from '../../routeService';
 
 import './Header.scss';
 
 const Header = ({ authFlag, auth, editProfile, userData, history }) => {
-  const userToken = getData('userToken');
+  const userToken = getToken();
 
   /* eslint-disable */
   useEffect(() => {
@@ -17,7 +17,7 @@ const Header = ({ authFlag, auth, editProfile, userData, history }) => {
   /* eslint-enable */
 
   const onLogOut = () => {
-    claerData('userToken');
+    claerToken();
     auth(false);
     editProfile(false);
     history.push(signInPath);

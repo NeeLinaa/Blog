@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import * as actions from '../../actions/actions';
 import ApiServices from '../../services';
-import { saveData } from '../../localStorage';
 import Spinner from '../spiner/Spiner';
 import Like from '../like/Like';
 import 'antd/dist/antd.css';
@@ -53,7 +52,7 @@ const ArticleList = ({ getAllArticles, articles }) => {
       <div className="articleCard" key={slug}>
         <div className="basicInf">
           <div className="articleHeader">
-            <Link to={itemSlug} id={slug} onClick={(event) => saveData(event.target.id)} className="title">
+            <Link to={itemSlug} id={slug} className="title">
               {title}
             </Link>
             <Like slug={slug} />
@@ -96,7 +95,7 @@ const ArticleList = ({ getAllArticles, articles }) => {
 };
 
 const mapStateToProps = (state) => ({
-  articles: state.articles[0],
+  articles: state.articles.articlesArr,
 });
 
 ArticleList.defaultProps = {

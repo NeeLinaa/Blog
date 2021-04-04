@@ -165,9 +165,9 @@ ArticleDetails.defaultProps = {
 
 ArticleDetails.propTypes = {
   getArticleAuthorData: PropTypes.func,
-  authorData: PropTypes.arrayOf(PropTypes.string.isRequired),
+  authorData: PropTypes.arrayOf(PropTypes.string),
   slugProp: PropTypes.string,
-  userData: PropTypes.arrayOf(PropTypes.string.isRequired),
+  userData: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default connect(mapStateToProps, actions)(ArticleDetails);
