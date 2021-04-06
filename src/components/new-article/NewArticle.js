@@ -6,7 +6,7 @@ import './NewArticle.scss';
 
 const NewArticle = ({ onSubmit, articleData }) => {
   const { register, handleSubmit, errors } = useForm();
-  const [arrTags, setArrTag] = useState(['']);
+  const [arrTags, setArrTag] = useState([]);
   console.log(arrTags);
 
   const addBtnStyle = {
